@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-MAX_SHOW=10
+MAX_SHOW="${CLIP_MAX_FILES:-10}"
 MAX_SELECT=5
 
 # 프로젝트 루트를 스크립트 위치 기준으로 계산 (.claude/hooks/clip.sh → 2단계 상위)

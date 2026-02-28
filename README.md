@@ -84,10 +84,16 @@ Windows에서 스크린샷이 파일로 자동 저장되도록 설정해야 한�
 
 ## 환경변수
 
-`CLIP_SCREENSHOTS_DIR`로 저장된 경로를 임시 오버라이드할 수 있다:
+WSL/DevContainer 터미널 또는 `.bashrc`에서 설정한다.
+
+| 변수 | 설명 | 기본값 |
+|------|------|--------|
+| `CLIP_SCREENSHOTS_DIR` | 스크린샷 폴더 경로 오버라이드 | `clip-path` 설정값 |
+| `CLIP_MAX_FILES` | `/clip` 목록에 표시할 최근 이미지 수 | `10` |
 
 ```bash
-export CLIP_SCREENSHOTS_DIR=/other/path
+export CLIP_SCREENSHOTS_DIR=/mnt/c/_screenshots
+export CLIP_MAX_FILES=20
 ```
 
 ## 파일 구조
