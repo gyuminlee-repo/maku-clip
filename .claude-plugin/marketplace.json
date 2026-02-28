@@ -1,0 +1,11 @@
+{
+  "name": "maku-clip",
+  "owner": { "name": "gyuminlee-repo" },
+  "plugins": [
+    {
+      "name": "maku-clip",
+      "source": "./",
+      "description": "스크린샷 분석 slash command"
+    }
+  ]
+}

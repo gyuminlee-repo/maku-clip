@@ -6,7 +6,16 @@ Claude Code용 스크린샷 분석 slash command.
 
 ## 설치
 
-### 방법 1: 파일 복사
+### 방법 1: 플러그인 (권장)
+
+```
+/plugin marketplace add gyuminlee-repo/maku-clip
+/plugin install maku-clip@maku-clip
+```
+
+글로벌 설치되어 모든 프로젝트에서 `/clip`을 사용할 수 있다.
+
+### 방법 2: 파일 복사
 
 프로젝트 루트의 `.claude/` 디렉토리에 복사:
 
@@ -21,7 +30,7 @@ curl -fsSL https://raw.githubusercontent.com/gyuminlee-repo/maku-clip/master/.cl
 chmod +x .claude/hooks/clip.sh
 ```
 
-### 방법 2: git clone 후 복사
+### 방법 3: git clone 후 복사
 
 ```bash
 git clone https://github.com/gyuminlee-repo/maku-clip.git /tmp/maku-clip
@@ -112,10 +121,18 @@ export CLIP_SCREENSHOTS_DIR=/mnt/c/_screenshots
 ## 파일 구조
 
 ```
+.claude-plugin/
+├── plugin.json            # 플러그인 매니페스트
+└── marketplace.json       # 마켓플레이스 등록 정보
+skills/
+└── clip/SKILL.md          # /clip skill 정의 (플러그인용)
+hooks/
+└── clip.sh                # 스크린샷 스캔 (플러그인용)
 .claude/
-├── hooks/clip.sh      # 스크린샷 스캔, 경로 관리
-├── commands/clip.md   # /clip 커맨드 정의
-└── state/clip-path    # 저장된 경로 (자동 생성, gitignore 권장)
+├── hooks/clip.sh          # 스크린샷 스캔 (파일 복사 설치용)
+├── commands/clip.md       # /clip 커맨드 정의 (파일 복사 설치용)
+└── state/clip-path        # 저장된 경로 (자동 생성, gitignore 권장)
 ```
 
-`.claude/state/`는 사용자별 설정이 저장되므로 `.gitignore`에 추가하는 것을 권장한다.
+- 플러그인 설치 시 상태 파일은 `~/.claude/state/`에 저장된다 (글로벌).
+- 파일 복사 설치 시 상태 파일은 프로젝트 `.claude/state/`에 저장된다 (로컬).

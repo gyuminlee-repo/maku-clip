@@ -1,0 +1,14 @@
+{
+  "name": "maku-clip",
+  "description": "스크린샷 분석 slash command. /clip으로 캡처 이미지 목록 조회 및 AI 분석.",
+  "version": "1.0.0",
+  "author": {
+    "name": "gyuminlee-repo"
+  },
+  "repository": "https://github.com/gyuminlee-repo/maku-clip",
+  "license": "MIT",
+  "keywords": ["screenshot", "clipboard", "image-analysis", "wsl", "devcontainer"],
+  "hooks": {
+    "PostToolUse": []
+  }
+}
