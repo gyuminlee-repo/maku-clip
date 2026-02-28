@@ -1,3 +1,5 @@
+[한국어](README.md) | [English](README.en.md)
+
 # maku-clip
 
 Claude Code용 스크린샷 분석 slash command.
@@ -106,32 +108,22 @@ Windows에서 스크린샷이 파일로 자동 저장되도록 설정해야 한�
 
 번호 없이 텍스트만 쓰면 가장 최근 이미지가 자동 선택된다.
 
-## 환경변수
-
-WSL/DevContainer 터미널 또는 `.bashrc`에서 설정한다.
-
-| 변수 | 설명 | 기본값 |
-|------|------|--------|
-| `CLIP_SCREENSHOTS_DIR` | 스크린샷 폴더 경로 오버라이드 | `clip-path` 설정값 |
-
-```bash
-export CLIP_SCREENSHOTS_DIR=/mnt/c/_screenshots
-```
-
 ## 파일 구조
 
 ```
 .claude-plugin/
 ├── plugin.json            # 플러그인 매니페스트
 └── marketplace.json       # 마켓플레이스 등록 정보
+lib/
+└── clip-core.sh           # 공통 로직 (두 hooks에서 source)
 skills/
 └── clip/SKILL.md          # /clip skill 정의 (플러그인용)
 hooks/
-└── clip.sh                # 스크린샷 스캔 (플러그인용)
+└── clip.sh                # wrapper: 플러그인용 STATE_DIR 결정 → clip-core.sh
 .claude/
-├── hooks/clip.sh          # 스크린샷 스캔 (파일 복사 설치용)
+├── hooks/clip.sh          # standalone: 파일 복사 설치용 (전체 로직 포함)
 ├── commands/clip.md       # /clip 커맨드 정의 (파일 복사 설치용)
-└── state/clip-path        # 저장된 경로 (자동 생성, gitignore 권장)
+└── state/clip-path        # 저장된 경로 (자동 생성, gitignore 대상)
 ```
 
 - 플러그인 설치 시 상태 파일은 `~/.claude/state/`에 저장된다 (글로벌).

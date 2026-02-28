@@ -1,12 +1,10 @@
 #!/bin/bash
+# clip-core.sh — maku-clip 공통 로직
+# 호출 전 STATE_DIR 변수가 설정되어 있어야 한다.
 set -euo pipefail
 
 MAX_SELECT=5
 
-# 프로젝트 루트를 스크립트 위치 기준으로 계산 (.claude/hooks/clip.sh → 2단계 상위)
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
-STATE_DIR="$PROJECT_DIR/.claude/state"
 CONFIG_FILE="$STATE_DIR/clip-path"
 MAX_FILE="$STATE_DIR/clip-max"
 

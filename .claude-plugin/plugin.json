@@ -7,8 +7,5 @@
   },
   "repository": "https://github.com/gyuminlee-repo/maku-clip",
   "license": "MIT",
-  "keywords": ["screenshot", "clipboard", "image-analysis", "wsl", "devcontainer"],
-  "hooks": {
-    "PostToolUse": []
-  }
+  "keywords": ["screenshot", "clipboard", "image-analysis", "wsl", "devcontainer"]
 }
