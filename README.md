@@ -66,6 +66,7 @@ Windows에서 스크린샷이 파일로 자동 저장되도록 설정해야 한�
 /clip 1 3          # 1번, 3번 동시 선택
 /clip 1-3          # 1~3번 동시 선택 (최대 5장)
 /clip set-path     # 경로 재설정
+/clip set-max 20   # 목록 표시 개수 변경 (기본 10)
 ```
 
 ### 이미지 + 자유 텍스트
@@ -89,11 +90,9 @@ WSL/DevContainer 터미널 또는 `.bashrc`에서 설정한다.
 | 변수 | 설명 | 기본값 |
 |------|------|--------|
 | `CLIP_SCREENSHOTS_DIR` | 스크린샷 폴더 경로 오버라이드 | `clip-path` 설정값 |
-| `CLIP_MAX_FILES` | `/clip` 목록에 표시할 최근 이미지 수 | `10` |
 
 ```bash
 export CLIP_SCREENSHOTS_DIR=/mnt/c/_screenshots
-export CLIP_MAX_FILES=20
 ```
 
 ## 파일 구조

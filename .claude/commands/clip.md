@@ -47,3 +47,8 @@ description: "클립보드 이미지 분석. Win+Shift+S 캡처 이미지 목록
 ## 경로 재설정
 입력이 "set-path" 또는 "경로 변경"인 경우:
 - 사용자에게 새 경로를 질문하고 `clip.sh set-path <경로>`를 실행한다.
+
+## 목록 표시 개수 변경
+입력이 "set-max"인 경우:
+- `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/clip.sh" set-max <숫자>`를 실행한다.
+- 예: `/clip set-max 20` → 이후 `/clip` 목록에 최근 20개가 표시된다.

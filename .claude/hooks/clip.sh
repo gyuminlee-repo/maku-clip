@@ -1,13 +1,36 @@
 #!/bin/bash
 set -euo pipefail
 
-MAX_SHOW="${CLIP_MAX_FILES:-10}"
 MAX_SELECT=5
 
 # 프로젝트 루트를 스크립트 위치 기준으로 계산 (.claude/hooks/clip.sh → 2단계 상위)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 CONFIG_FILE="$PROJECT_DIR/.claude/state/clip-path"
+MAX_FILE="$PROJECT_DIR/.claude/state/clip-max"
+
+# 저장된 MAX_SHOW 로드 (환경변수 > 설정파일 > 기본값 10)
+if [ -n "${CLIP_MAX_FILES:-}" ]; then
+    MAX_SHOW="$CLIP_MAX_FILES"
+elif [ -f "$MAX_FILE" ]; then
+    MAX_SHOW=$(cat "$MAX_FILE" | tr -d '\n\r')
+else
+    MAX_SHOW=10
+fi
+
+# --- set-max 명령 ---
+if [ "${1:-}" = "set-max" ]; then
+    NEW_MAX="${2:-}"
+    if [ -z "$NEW_MAX" ] || ! [[ "$NEW_MAX" =~ ^[0-9]+$ ]] || [ "$NEW_MAX" -lt 1 ]; then
+        echo "사용법: /clip set-max <숫자> (1 이상)" >&2
+        exit 1
+    fi
+    mkdir -p "$(dirname "$MAX_FILE")"
+    echo "$NEW_MAX" > "$MAX_FILE"
+    chmod 0600 "$MAX_FILE"
+    echo "목록 표시 개수 설정 완료: ${NEW_MAX}개"
+    exit 0
+fi
 
 # --- 경로 설정 명령 (경로 로드보다 먼저 처리) ---
 if [ "${1:-}" = "set-path" ]; then
