@@ -6,15 +6,41 @@ Claude Code용 스크린샷 분석 slash command.
 
 ## 설치
 
-프로젝트 루트에서:
+### 방법 1: 파일 복사
+
+프로젝트 루트의 `.claude/` 디렉토리에 복사:
 
 ```bash
-# hooks
 mkdir -p .claude/hooks .claude/commands
-curl -fsSL https://raw.githubusercontent.com/gyuminlee-repo/maku-clip/main/.claude/hooks/clip.sh -o .claude/hooks/clip.sh
-curl -fsSL https://raw.githubusercontent.com/gyuminlee-repo/maku-clip/main/.claude/commands/clip.md -o .claude/commands/clip.md
+
+curl -fsSL https://raw.githubusercontent.com/gyuminlee-repo/maku-clip/master/.claude/hooks/clip.sh \
+  -o .claude/hooks/clip.sh
+curl -fsSL https://raw.githubusercontent.com/gyuminlee-repo/maku-clip/master/.claude/commands/clip.md \
+  -o .claude/commands/clip.md
+
 chmod +x .claude/hooks/clip.sh
 ```
+
+### 방법 2: git clone 후 복사
+
+```bash
+git clone https://github.com/gyuminlee-repo/maku-clip.git /tmp/maku-clip
+cp -r /tmp/maku-clip/.claude/hooks/clip.sh  your-project/.claude/hooks/
+cp -r /tmp/maku-clip/.claude/commands/clip.md your-project/.claude/commands/
+chmod +x your-project/.claude/hooks/clip.sh
+rm -rf /tmp/maku-clip
+```
+
+## 사전 설정: 스크린샷 자동 저장
+
+Windows에서 스크린샷이 파일로 자동 저장되도록 설정해야 한다.
+
+1. **Snipping Tool** 앱을 열고 설정(⚙️)으로 이동
+2. **"스크린샷 자동 저장"** 토글을 켠다
+3. 저장 위치를 원하는 폴더로 변경한다 (예: `C:\_screenshots`)
+
+> 이 폴더는 WSL/DevContainer에서 접근 가능해야 한다.
+> WSL 기준 `/mnt/c/_screenshots`로 마운트된다.
 
 ## 첫 실행
 
@@ -27,28 +53,38 @@ chmod +x .claude/hooks/clip.sh
 | 환경 | 경로 예시 |
 |------|-----------|
 | WSL | `/mnt/c/_screenshots` |
-| DevContainer | `/workspaces/screenshots` |
+| DevContainer | 마운트된 스크린샷 폴더 경로 |
 | 네이티브 Linux | `~/Pictures/Screenshots` |
-| 커스텀 | 아무 경로나 지정 가능 |
 
 ## 사용법
 
+### 기본
+
 ```
 /clip              # 최근 10개 목록
-/clip 1            # 1번 이미지 분석
-/clip 1 3          # 1번, 3번 동시 분석
-/clip 1-3          # 1~3번 동시 분석
-/clip 2 이거 뭐야   # 2번 이미지 + 텍스트 요청
-/clip 1-3 비교해줘  # 1~3번 + 텍스트 요청
-/clip 이 에러 뭐야  # 최신 1장 + 텍스트 요청
+/clip 1            # 1번 이미지 선택
+/clip 1 3          # 1번, 3번 동시 선택
+/clip 1-3          # 1~3번 동시 선택 (최대 5장)
 /clip set-path     # 경로 재설정
 ```
 
-최대 5장까지 동시 선택 가능.
+### 이미지 + 자유 텍스트
+
+번호 뒤에 자연어를 붙이면 해당 이미지를 맥락으로 Claude가 응답한다. 질문, 요청, 지시 등 어떤 텍스트든 가능.
+
+```
+/clip 1 이 에러 어떻게 고쳐?
+/clip 2 이 UI 레이아웃 개선안 제안해줘
+/clip 1-3 이 세 화면의 차이점 정리해줘
+/clip 1 이 코드를 TypeScript로 변환해줘
+/clip 이거 뭔 뜻이야
+```
+
+번호 없이 텍스트만 쓰면 가장 최근 이미지가 자동 선택된다.
 
 ## 환경변수
 
-`CLIP_SCREENSHOTS_DIR`로 경로를 임시 오버라이드할 수 있다:
+`CLIP_SCREENSHOTS_DIR`로 저장된 경로를 임시 오버라이드할 수 있다:
 
 ```bash
 export CLIP_SCREENSHOTS_DIR=/other/path
@@ -63,6 +99,4 @@ export CLIP_SCREENSHOTS_DIR=/other/path
 └── state/clip-path    # 저장된 경로 (자동 생성, gitignore 권장)
 ```
 
-## 이름
-
-마메(マメ) + 쿠로(クロ) = MAKU
+`.claude/state/`는 사용자별 설정이 저장되므로 `.gitignore`에 추가하는 것을 권장한다.
