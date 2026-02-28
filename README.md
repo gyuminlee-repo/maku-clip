@@ -39,8 +39,22 @@ Windows에서 스크린샷이 파일로 자동 저장되도록 설정해야 한�
 2. **"스크린샷 자동 저장"** 토글을 켠다
 3. 저장 위치를 원하는 폴더로 변경한다 (예: `C:\_screenshots`)
 
-> 이 폴더는 WSL/DevContainer에서 접근 가능해야 한다.
-> WSL 기준 `/mnt/c/_screenshots`로 마운트된다.
+> **WSL**: Windows 드라이브가 `/mnt/c/`로 자동 마운트되므로 추가 설정이 필요 없다.
+> 예: `C:\_screenshots` → `/mnt/c/_screenshots`
+>
+> **DevContainer**: 컨테이너 내부에서 호스트 폴더에 직접 접근할 수 없다.
+> `devcontainer.json`에 마운트 설정을 추가해야 한다:
+>
+> ```jsonc
+> // .devcontainer/devcontainer.json
+> {
+>   "mounts": [
+>     "source=/mnt/c/_screenshots,target=/mnt/c/_screenshots,type=bind,consistency=cached"
+>   ]
+> }
+> ```
+>
+> 설정 후 **Rebuild Container**를 실행해야 적용된다.
 
 ## 첫 실행
 
