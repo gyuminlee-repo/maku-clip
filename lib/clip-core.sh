@@ -47,8 +47,10 @@ if [ "${1:-}" = "set-path" ]; then
     exit 0
 fi
 
-# --- 스크린샷 경로 로드 ---
-if [ -f "$CONFIG_FILE" ]; then
+# --- 스크린샷 경로 로드 (환경변수 > 설정파일) ---
+if [ -n "${CLIP_SCREENSHOTS_DIR:-}" ]; then
+    SCREENSHOTS_DIR="$CLIP_SCREENSHOTS_DIR"
+elif [ -f "$CONFIG_FILE" ]; then
     SCREENSHOTS_DIR=$(tr -d '\n\r' < "$CONFIG_FILE")
 else
     echo "스크린샷 경로가 설정되지 않았습니다." >&2
